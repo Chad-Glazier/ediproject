@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <emscripten.h>
-#include "bitboard/bitboard.h"
+#include "state/state.h"
 
 int main() {
-	BitBoard bb = {};
-	flag(&bb, 12);
-	unflag(&bb, 12);
-	printf("Hello, world!\n");
-	printf("Board: %llu %llu\n", bb.lo, bb.hi);
+	
+	StateSlice* s = state_slice_create(10);
+	printf("len: %d, cap: %d\n", s->length, s->capacity);
+
+	for (int i = 0; i < 4000; i++) {
+		state_slice_append(s, (State){});
+	}
+
+	printf("len: %d, cap: %d\n", s->length, s->capacity);
+
 	return 0;
 }

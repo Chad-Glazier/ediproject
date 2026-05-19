@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+const Position NULL_POS = 100;
+
 // Flags a position in the bitboard.
 void flag(BitBoard* bb, Position pos) {
 	if (pos < 64) {

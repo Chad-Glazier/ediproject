@@ -11,7 +11,7 @@ typedef uint8_t Position;
 
 // Represents a null position. I.e., for functions that return a position,
 // the null position should be returned if no valid position exists.
-const Position NULL_POS = 100;
+extern const Position NULL_POS;
 
 // Represents a board where each position index (0-99, since Amazons is played
 // on a 10x10 board) is either 0 or 1, which we refer to as "unflagged" and
