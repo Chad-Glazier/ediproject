@@ -29,15 +29,12 @@ typedef struct {
 // Represents a slice of game states.
 typedef struct {
 	State* states;
-	uint16_t length;
-	uint16_t capacity;
+	uint16_t len;
+	uint16_t cap;
 } StateSlice;
 
 StateSlice* state_slice_create(uint16_t capacity);
 void state_slice_destroy(StateSlice* s);
 void state_slice_append(StateSlice* s, State state);
-
-#include "state_slice.c"
-#include "state.c"
 
 #endif

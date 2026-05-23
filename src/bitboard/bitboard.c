@@ -161,3 +161,9 @@ void assign_not(BitBoard* a) {
 	a->lo = ~a->lo;
 	a->hi = ~a->hi;
 }
+
+// Convert row/column coordinates to a position index.
+Position position(int row, int col) {
+    return row * 10 + col;
+}
+

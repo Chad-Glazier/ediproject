@@ -32,11 +32,11 @@ int count(BitBoard* bb);
 Position lsb(BitBoard* bb);
 Position msb(BitBoard* bb);
 
-BitBoard or (BitBoard* a, BitBoard* b);
-BitBoard xor (BitBoard* a, BitBoard* b);
-BitBoard and (BitBoard* a, BitBoard* b);
+BitBoard or (BitBoard * a, BitBoard* b);
+BitBoard xor (BitBoard * a, BitBoard* b);
+BitBoard and (BitBoard * a, BitBoard* b);
 BitBoard and_not(BitBoard* a, BitBoard* b);
-BitBoard not(BitBoard* a);
+BitBoard not(BitBoard * a);
 
 void assign_or(BitBoard* a, BitBoard b);
 void assign_xor(BitBoard* a, BitBoard* b);
@@ -44,23 +44,22 @@ void assign_and(BitBoard* a, BitBoard* b);
 void assign_and_not(BitBoard* a, BitBoard* b);
 void assign_not(BitBoard* a);
 
+// Represents a one of the eight cardinal/intercardinal directions.
 typedef uint8_t Direction;
 
-extern const Direction W;  // West
-extern const Direction NW; // Northwest
-extern const Direction N;  // North
-extern const Direction NE; // Northeast
-extern const Direction E;  // East
-extern const Direction SE; // Southeast
-extern const Direction S;  // South
-extern const Direction SW; // Southwest
+extern const Direction W;
+extern const Direction NW;
+extern const Direction N;
+extern const Direction NE;
+extern const Direction E;
+extern const Direction SE;
+extern const Direction S;
+extern const Direction SW;
 
-void bb_init();
+void bitboard_init();
 
-BitBoard k_adjacent(Position pos);
-BitBoard exclusive_ray(Position pos, Direction dir);
-
-#include "bitboard.c"
-#include "precomputed.c"
+BitBoard* king_adjacent(Position pos);
+BitBoard* exclusive_ray(Position pos, Direction dir);
+BitBoard* inclusive_ray(Position pos, Direction dir);
 
 #endif
