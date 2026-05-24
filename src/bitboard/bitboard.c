@@ -97,9 +97,9 @@ BitBoard or(BitBoard* a, BitBoard* b) {
 }
 
 // Performs a bitwise OR operation (a | b) and assigns the result to a.
-void assign_or(BitBoard* a, BitBoard b) {
-	a->lo |= b.lo;
-	a->hi |= b.hi;
+void assign_or(BitBoard* a, BitBoard* b) {
+	a->lo |= b->lo;
+	a->hi |= b->hi;
 }
 
 // Performs a bitwise XOR operation (a ^ b) and returns the result.

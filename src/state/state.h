@@ -37,4 +37,13 @@ StateSlice* state_slice_create(uint16_t capacity);
 void state_slice_destroy(StateSlice* s);
 void state_slice_append(StateSlice* s, State state);
 
+BitBoard k_neighbors(BitBoard* occupancy, Position position);
+BitBoard k_frontier(BitBoard* occupancy, BitBoard* territory);
+BitBoard q_neighbors(BitBoard* occupancy, Position position);
+BitBoard q_frontier(BitBoard* occupancy, BitBoard* territory);
+
+StateSlice* get_children(State* parent);
+
+State initial_state(void);
+
 #endif

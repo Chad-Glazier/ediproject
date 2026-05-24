@@ -9,29 +9,29 @@ const Direction SE = 5; // Southeast
 const Direction S = 6;  // South
 const Direction SW = 7; // Southwest
 
-BitBoard king_adjacent_boards[100];
-BitBoard exclusive_ray_boards[100][8];
-BitBoard inclusive_ray_boards[100][8];
+static BitBoard king_adjacent_boards[100];
+static BitBoard exclusive_ray_boards[100][8];
+static BitBoard inclusive_ray_boards[100][8];
 
 // Returns a bitboard where each position is flagged if and only if a Chess
 // king could move from pos to that position in a single move.
 BitBoard* king_adjacent(Position pos) {
-    return &(king_adjacent_boards[pos]);
+    return &king_adjacent_boards[pos];
 }
 
 // Returns a bitboard where each position is flagged if and only if it lies 
 // on a ray projected from pos in the direction dir, excluding pos.
 BitBoard* exclusive_ray(Position pos, Direction dir) {
-    return &(exclusive_ray_boards[pos][dir]);
+    return &exclusive_ray_boards[pos][dir];
 }
 
 // Returns a bitboard where each position is flagged if and only if it lies 
 // on a ray projected from pos in the direction dir, including pos.
 BitBoard* inclusive_ray(Position pos, Direction dir) {
-    return &(inclusive_ray_boards[pos][dir]);
+    return &inclusive_ray_boards[pos][dir];
 }
 
-BitBoard compute_king_adjacent_board(Position pos) {
+static BitBoard compute_king_adjacent_board(Position pos) {
 	BitBoard b = {};
     int row = pos / 10;
     int col = pos % 10;
@@ -72,7 +72,7 @@ BitBoard compute_king_adjacent_board(Position pos) {
 	return b;
 }
 
-BitBoard compute_exclusive_ray_board(Position pos, Direction dir) {
+static BitBoard compute_exclusive_ray_board(Position pos, Direction dir) {
 	BitBoard b = {};
     int row = pos / 10;
     int col = pos % 10;
@@ -124,7 +124,7 @@ BitBoard compute_exclusive_ray_board(Position pos, Direction dir) {
 	return b;
 }
 
-BitBoard compute_inclusive_ray_board(Position pos, Direction dir) {
+static BitBoard compute_inclusive_ray_board(Position pos, Direction dir) {
     BitBoard b = compute_exclusive_ray_board(pos, dir);
     flag(&b, pos);
     return b;
@@ -132,7 +132,7 @@ BitBoard compute_inclusive_ray_board(Position pos, Direction dir) {
 
 // Initializes the precomputed bitboards. This should only be called once, and
 // it must be called before anything else.
-void bitboard_init() {
+void bitboard_init(void) {
     for (Position p = 0; p < 100; p++) {
         king_adjacent_boards[p] = compute_king_adjacent_board(p);
         for (Direction d = 0; d < 8; d++) {

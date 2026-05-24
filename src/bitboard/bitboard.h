@@ -32,17 +32,19 @@ int count(BitBoard* bb);
 Position lsb(BitBoard* bb);
 Position msb(BitBoard* bb);
 
-BitBoard or (BitBoard * a, BitBoard* b);
-BitBoard xor (BitBoard * a, BitBoard* b);
-BitBoard and (BitBoard * a, BitBoard* b);
+BitBoard or (BitBoard* a, BitBoard* b);
+BitBoard xor (BitBoard* a, BitBoard* b);
+BitBoard and (BitBoard* a, BitBoard* b);
 BitBoard and_not(BitBoard* a, BitBoard* b);
-BitBoard not(BitBoard * a);
+BitBoard not(BitBoard* a);
 
-void assign_or(BitBoard* a, BitBoard b);
+void assign_or(BitBoard* a, BitBoard* b);
 void assign_xor(BitBoard* a, BitBoard* b);
 void assign_and(BitBoard* a, BitBoard* b);
 void assign_and_not(BitBoard* a, BitBoard* b);
 void assign_not(BitBoard* a);
+
+Position position(int row, int col);
 
 // Represents a one of the eight cardinal/intercardinal directions.
 typedef uint8_t Direction;
@@ -56,7 +58,7 @@ extern const Direction SE;
 extern const Direction S;
 extern const Direction SW;
 
-void bitboard_init();
+void bitboard_init(void);
 
 BitBoard* king_adjacent(Position pos);
 BitBoard* exclusive_ray(Position pos, Direction dir);
