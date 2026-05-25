@@ -24,13 +24,6 @@ typedef struct {
 // Helper functions
 //
 
-Nanoseconds current_time(void) {
-	struct timespec ts;
-	timespec_get(&ts, TIME_UTC);
-
-	return ((Nanoseconds) ts.tv_sec * 1000000000ULL) + (Nanoseconds) ts.tv_nsec;
-}
-
 bool out_of_time(AlphaBetaContext* ctx) {
     return current_time() >= ctx->deadline;
 }
@@ -128,6 +121,8 @@ AlphaBetaResult alpha_beta(
 	EvalFunc eval,
 	Nanoseconds time_limit
 ) {
+    Nanoseconds start_time = current_time();
+
     AlphaBetaContext ctx = {
         .eval = eval,
         .deadline = current_time() + time_limit,
@@ -156,7 +151,6 @@ AlphaBetaResult alpha_beta(
 
         double alpha = -__DBL_MAX__;
         double beta = __DBL_MAX__;
-
 
 		for (uint16_t i = 0; i < children->len; i++) {
 			State* child = &children->states[i];
@@ -189,6 +183,11 @@ AlphaBetaResult alpha_beta(
         if (completed_iteration && best_index >= 0) {
             result.greatest_completed_depth = depth;
             result.preferred_child = children->states[best_index];
+            printf(
+                "Completed depth %d (%ds cum.)...\n", 
+                depth,
+                (current_time() - start_time) / 1000000000ULL
+            );
         }
 
         state_slice_destroy(children);

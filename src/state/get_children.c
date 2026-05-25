@@ -1,4 +1,5 @@
 #include "state.h"
+#include <string.h>
 
 // Returns an unordered slice of all possible subsequent board states. When
 // modeling the game as a state tree, this function returns the children of a
@@ -43,8 +44,6 @@ StateSlice* get_children(State* parent) {
                     // We now have all the stuff we need for the child state.
 					State child = {
 					    .occ = parent->occ,
-					    .black = *parent->black,
-					    .white = *parent->white,
 					    .player = BLACK,
 					    .move =
 					        {
@@ -53,6 +52,16 @@ StateSlice* get_children(State* parent) {
 					            .arrow = arrow,
 					        },
 					};
+                    memcpy(
+                        &child.white, 
+                        parent->white, 
+                        sizeof(parent->white[0]) * 4
+                    );
+                    memcpy(
+                        &child.black, 
+                        parent->black, 
+                        sizeof(parent->black[0]) * 4
+                    );
 					state_slice_append(children, child);
 
                     // Undo the arrow on the parent.
@@ -88,8 +97,6 @@ StateSlice* get_children(State* parent) {
 
 					State child = {
 					    .occ = parent->occ,
-					    .black = *parent->black,
-					    .white = *parent->white,
 					    .player = WHITE,
 					    .move =
 					        {
@@ -98,6 +105,16 @@ StateSlice* get_children(State* parent) {
 					            .arrow = arrow,
 					        },
 					};
+                    memcpy(
+                        &child.white, 
+                        parent->white, 
+                        sizeof(parent->white[0]) * 4
+                    );
+                    memcpy(
+                        &child.black, 
+                        parent->black, 
+                        sizeof(parent->black[0]) * 4
+                    );
 					state_slice_append(children, child);
 
 					unflag(&parent->occ, arrow);

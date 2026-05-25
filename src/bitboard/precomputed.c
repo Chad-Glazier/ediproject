@@ -15,113 +15,102 @@ static BitBoard inclusive_ray_boards[100][8];
 
 // Returns a bitboard where each position is flagged if and only if a Chess
 // king could move from pos to that position in a single move.
-BitBoard* king_adjacent(Position pos) {
-    return &king_adjacent_boards[pos];
-}
+BitBoard* king_adjacent(Position pos) { return &king_adjacent_boards[pos]; }
 
-// Returns a bitboard where each position is flagged if and only if it lies 
+// Returns a bitboard where each position is flagged if and only if it lies
 // on a ray projected from pos in the direction dir, excluding pos.
 BitBoard* exclusive_ray(Position pos, Direction dir) {
     return &exclusive_ray_boards[pos][dir];
 }
 
-// Returns a bitboard where each position is flagged if and only if it lies 
+// Returns a bitboard where each position is flagged if and only if it lies
 // on a ray projected from pos in the direction dir, including pos.
 BitBoard* inclusive_ray(Position pos, Direction dir) {
     return &inclusive_ray_boards[pos][dir];
 }
 
 static BitBoard compute_king_adjacent_board(Position pos) {
-	BitBoard b = {};
+    BitBoard b = {};
     int row = pos / 10;
     int col = pos % 10;
 
-	if (row != 9) {
-        
+    if (row != 9) {
+
         flag(&b, position(row + 1, col));
 
-		if (col != 9) {
-			flag(&b, position(row+1, col+1));
-		}
+        if (col != 9) {
+            flag(&b, position(row + 1, col + 1));
+        }
 
-		if (col != 0) {
-			flag(&b, position(row+1, col-1));
-		}
-	}
+        if (col != 0) {
+            flag(&b, position(row + 1, col - 1));
+        }
+    }
 
-	if (row != 0) {
-		flag(&b, position(row-1, col));
+    if (row != 0) {
+        flag(&b, position(row - 1, col));
 
-		if (col != 9) {
-			flag(&b, position(row-1, col+1));
-		}
+        if (col != 9) {
+            flag(&b, position(row - 1, col + 1));
+        }
 
-		if (col != 0) {
-			flag(&b, position(row-1, col-1));
-		}
-	}
+        if (col != 0) {
+            flag(&b, position(row - 1, col - 1));
+        }
+    }
 
-	if (col != 9) {
-		flag(&b, position(row, col+1));
-	}
+    if (col != 9) {
+        flag(&b, position(row, col + 1));
+    }
 
-	if (col != 0) {
-		flag(&b, position(row, col-1));
-	}
+    if (col != 0) {
+        flag(&b, position(row, col - 1));
+    }
 
-	return b;
+    return b;
 }
 
 static BitBoard compute_exclusive_ray_board(Position pos, Direction dir) {
-	BitBoard b = {};
+    BitBoard b = {};
     int row = pos / 10;
     int col = pos % 10;
 
-	// Rows are indexed from the top to the bottom. So, to move "north," we
-	// would need to decrement the row index.
+    // Rows are indexed from the top to the bottom. So, to move "north," we
+    // would need to decrement the row index.
 
-	// Column indices are indexed left-to-right, so incrementing the column
-	// index is the same as moving "east."
+    // Column indices are indexed left-to-right, so incrementing the column
+    // index is the same as moving "east."
 
-	while (1) {
-		switch (dir) {
-		case N:
-			row--;
+    while (1) {
+        if (dir == N) {
+            row--;
+        } else if (dir == NE) {
+            row--;
+            col++;
+        } else if (dir == E) {
+            col++;
+        } else if (dir == SE) {
+            row++;
+            col++;
+        } else if (dir == S) {
+            row++;
+        } else if (dir == SW) {
+            row++;
+            col--;
+        } else if (dir == W) {
+            col--;
+        } else if (dir == NW) {
+            row--;
+            col--;
+        }
+        if (row >= 10 || row < 0 || col >= 10 || col < 0) {
             break;
-		case NE:
-			row--;
-			col++;
-            break;
-		case E:
-			col++;
-            break;
-		case SE:
-			row++;
-			col++;
-            break;
-		case S:
-			row++;
-            break;
-		case SW:
-			row++;
-			col--;
-            break;
-		case W:
-			col--;
-            break;
-		case NW:
-			row--;
-			col--;
-            break;
-		}
-		if (row >= 10 || row < 0 || col >= 10 || col < 0) {
-			break;
-		}
+        }
 
-		flag(&b, position(row, col));
-	}
+        flag(&b, position(row, col));
+    }
 
-	return b;
+    return b;
 }
 
 static BitBoard compute_inclusive_ray_board(Position pos, Direction dir) {
