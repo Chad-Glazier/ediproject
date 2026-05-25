@@ -30,7 +30,7 @@ int main() {
     State board = initial_state();
 
     AlphaBetaResult result = alpha_beta(
-        &board, kmindist, 120ULL * 1000000000ULL);
+        &board, kmindist, 10ULL * 1000000000ULL);
     printf("Greatest depth completed: %d\n", result.greatest_completed_depth);
 
     printf(

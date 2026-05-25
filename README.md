@@ -30,7 +30,3 @@ void some_c_func() {
 	// ...
 }
 ```
-
-## Testing
-
-Tests are implemented for [Emscripten's test runner](https://emscripten.org/docs/getting_started/test-suite.html#emscripten-test-suite). 
