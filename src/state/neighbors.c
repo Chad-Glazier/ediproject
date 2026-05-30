@@ -4,7 +4,8 @@
 // two squares p and q are neighbors if and only if a chess king could move
 // from p to q (accounting for squares that are already occupied by arrows or
 // queens).
-BitBoard k_neighbors(BitBoard* occupancy, Position position) {
+BitBoard k_neighbors(BitBoard* occupancy, Position position)
+{
     return and_not(king_adjacent(position), occupancy);
 }
 
@@ -14,16 +15,16 @@ BitBoard k_neighbors(BitBoard* occupancy, Position position) {
 // positions that are already in the territory. Two positions p and q are
 // adjacent if and only if a chess king could move from p to q in a single
 // move, accounting for any arrows or queens that could obstruct such a move.
-BitBoard k_frontier(BitBoard* occupancy, BitBoard* territory) {
+BitBoard k_frontier(BitBoard* occupancy, BitBoard* territory)
+{
+    BitBoard frontier = { };
 
-    BitBoard frontier = {};
-    
     BitBoard iter = *territory;
     for (Position p = next(&iter); p != NULL_POS; p = next(&iter)) {
         BitBoard neighbors = k_neighbors(occupancy, p);
         assign_or(&frontier, &neighbors);
     }
-    
+
     return and_not(&frontier, territory);
 }
 
@@ -31,13 +32,12 @@ BitBoard k_frontier(BitBoard* occupancy, BitBoard* territory) {
 // two squares p and q are neighbors if and only if a chess queen could move
 // from p to q (accounting for squares that are already occupied by arrows or
 // queens).
-BitBoard q_neighbors(BitBoard* occupancy, Position position) {
+BitBoard q_neighbors(BitBoard* occupancy, Position position)
+{
+    BitBoard neighbors = { };
 
-    BitBoard neighbors = {};
-    
     // Iterate over the forward directions.
     for (Direction d = W; d < E; d++) {
-
         BitBoard* ray = exclusive_ray(position, d);
         BitBoard blockers = and(ray, occupancy);
 
@@ -53,7 +53,6 @@ BitBoard q_neighbors(BitBoard* occupancy, Position position) {
 
     // Iterate over the backward directions.
     for (Direction d = E; d <= SW; d++) {
-
         BitBoard* ray = exclusive_ray(position, d);
         BitBoard blockers = and(ray, occupancy);
 
@@ -76,15 +75,15 @@ BitBoard q_neighbors(BitBoard* occupancy, Position position) {
 // positions that are already in the territory. Two positions p and q are
 // adjacent if and only if a chess queen could move from p to q in a single
 // move, accounting for any arrows or queens that could obstruct such a move.
-BitBoard q_frontier(BitBoard* occupancy, BitBoard* territory) {
+BitBoard q_frontier(BitBoard* occupancy, BitBoard* territory)
+{
+    BitBoard frontier = { };
 
-    BitBoard frontier = {};
-    
     BitBoard iter = *territory;
     for (Position p = next(&iter); p != NULL_POS; p = next(&iter)) {
         BitBoard neighbors = q_neighbors(occupancy, p);
         assign_or(&frontier, &neighbors);
     }
-    
+
     return and_not(&frontier, territory);
 }

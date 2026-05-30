@@ -17,8 +17,8 @@ extern const Position NULL_POS;
 // on a 10x10 board) is either 0 or 1, which we refer to as "unflagged" and
 // "flagged," respectively.
 typedef struct {
-	uint64_t lo;
-	uint64_t hi;
+    uint64_t lo;
+    uint64_t hi;
 } BitBoard;
 
 void flag(BitBoard* bb, Position pos);
@@ -32,11 +32,11 @@ int count(BitBoard* bb);
 Position lsb(BitBoard* bb);
 Position msb(BitBoard* bb);
 
-BitBoard or (BitBoard* a, BitBoard* b);
-BitBoard xor (BitBoard* a, BitBoard* b);
-BitBoard and (BitBoard* a, BitBoard* b);
+BitBoard or (BitBoard * a, BitBoard* b);
+BitBoard xor (BitBoard * a, BitBoard* b);
+BitBoard and (BitBoard * a, BitBoard* b);
 BitBoard and_not(BitBoard* a, BitBoard* b);
-BitBoard not(BitBoard* a);
+BitBoard not(BitBoard * a);
 
 void assign_or(BitBoard* a, BitBoard* b);
 void assign_xor(BitBoard* a, BitBoard* b);

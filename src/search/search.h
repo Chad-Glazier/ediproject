@@ -1,10 +1,11 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
+#include <stdint.h>
+
 #include "../eval/eval.h"
 #include "../state/state.h"
 #include "../util/util.h"
-#include <stdint.h>
 
 typedef struct {
     State preferred_child;

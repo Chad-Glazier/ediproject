@@ -4,11 +4,11 @@ const PlayerColor WHITE = 0; // Represents the player on White.
 const PlayerColor BLACK = 1; // Represents the player on Black.
 
 // Returns a new board state representing the starting position.
-State initial_state(void) {
-
+State initial_state(void)
+{
     State s = {
         .player = WHITE,
-        .white = { 30,  3,  6, 39 },
+        .white = { 30, 3, 6, 39 },
         .black = { 60, 93, 96, 69 },
     };
 

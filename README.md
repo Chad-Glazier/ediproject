@@ -11,6 +11,10 @@ There are a few commands already set up for building the project from PowerShell
 - [debug.ps1](./debug.ps1) compiles the program in a similar way but with a bunch of debugging flags set. This version is an order of magnitude slower and it should only be used for debugging.
 - [run.ps1](./run.ps1) uses GCC to compile the project to an executable, runs it, and then deletes the binary.
 
+Apart from building the project, there are also the following scripts:
+- [lint.ps1](./lint.ps1) lints the source code with `clang-tidy`.
+- [format.ps1](./format.ps1) formats the source code with `clang-format`.
+
 ## Using the Program
 
 To access functions declared in the project from JavaScript, you can use `Module._cFuncName` where `cFuncName` is the name of the global in the C code (note that the `_` prefix is added when accessing it). 
