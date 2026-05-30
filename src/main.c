@@ -24,13 +24,24 @@ int main() {
 	bitboard_init();
     // interface_init();
 
+    // Report certain values.
+    printf("sizeof(State) is %zuB\n", sizeof(State));
+
+    // Run benchmarks
     benchmark_kmindist();
     benchmark_get_children();
 
     State board = initial_state();
 
+    // Check that `get_children` is working.
+    State children[MAX_CHILDREN];
+    uint16_t child_count = get_children(children, &board);
+    printf("get_children on an initial board yields %d children.\n", child_count);
+    
+    uint64_t seconds = 10;
+    printf("Running %ds search...\n", seconds);
     AlphaBetaResult result = alpha_beta(
-        &board, kmindist, 10ULL * 1000000000ULL);
+        &board, kmindist, seconds * 1000000000ULL);
     printf("Greatest depth completed: %d\n", result.greatest_completed_depth);
 
     printf(

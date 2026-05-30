@@ -64,9 +64,10 @@ SearchResult depth_limited_negamax(
         };
     }
 
-    StateSlice* children = get_children(state);
-    if (children->len == 0) {
-        state_slice_destroy(children);
+    State children[MAX_CHILDREN];
+    uint16_t child_count = get_children(children, state);
+
+    if (child_count == 0) {
         return (SearchResult){
             .completed = true,
             .score = color(state) * (ctx->eval)(state),
@@ -74,8 +75,8 @@ SearchResult depth_limited_negamax(
     }
     
     double best_score = -__DBL_MAX__;
-    for (uint16_t i = 0; i < children->len; i++) {
-        State* child = &children->states[i];
+    for (uint16_t i = 0; i < child_count; i++) {
+        State* child = children + i;
 
         SearchResult result = depth_limited_negamax(
             ctx,
@@ -86,7 +87,6 @@ SearchResult depth_limited_negamax(
         );
 
         if (!result.completed) {
-            state_slice_destroy(children);
             return result;
         }
 
@@ -104,8 +104,6 @@ SearchResult depth_limited_negamax(
             break;
         }
     }
-
-    state_slice_destroy(children);
 
     return (SearchResult){
         .completed = true,
@@ -138,10 +136,10 @@ AlphaBetaResult alpha_beta(
             break;
         }
 
-        StateSlice* children = get_children(root);
+        State children[MAX_CHILDREN];
+        uint16_t child_count = get_children(children, root);
 
-        if (children->len == 0) {
-            state_slice_destroy(children);
+        if (child_count == 0) {
             break;
         }
 
@@ -152,8 +150,8 @@ AlphaBetaResult alpha_beta(
         double alpha = -__DBL_MAX__;
         double beta = __DBL_MAX__;
 
-		for (uint16_t i = 0; i < children->len; i++) {
-			State* child = &children->states[i];
+		for (uint16_t i = 0; i < child_count; i++) {
+			State* child = children + i;
 
 			SearchResult result = depth_limited_negamax(
 				&ctx,
@@ -182,15 +180,13 @@ AlphaBetaResult alpha_beta(
 
         if (completed_iteration && best_index >= 0) {
             result.greatest_completed_depth = depth;
-            result.preferred_child = children->states[best_index];
+            result.preferred_child = children[best_index];
             printf(
-                "Completed depth %d (%ds cum.)...\n", 
+                "Completed depth %d (%llus)...\n", 
                 depth,
                 (current_time() - start_time) / 1000000000ULL
             );
         }
-
-        state_slice_destroy(children);
 
         if (!completed_iteration) {
             break;

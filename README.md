@@ -6,17 +6,12 @@ This project is an implementation of the main EDI program for playing the Game o
 
 We use [Emscripten](https://emscripten.org) to compile this program into WebAssembly code that can be run in a browser environment. The following notes assume that you have an Emscripten environment properly set up.
 
-To build the project for debugging, run
+There are a few commands already set up for building the project from PowerShell. However, since they are basically just calls to `emcc`, they should be trivial to translate to other shells.
+- [build.ps1](./build.ps1) produces the optimized WebAssembly build and outputs it in [`build/`](./build/).
+- [debug.ps1](./debug.ps1) compiles the program in a similar way but with a bunch of debugging flags set. This version is an order of magnitude slower and it should only be used for debugging.
+- [run.ps1](./run.ps1) uses GCC to compile the project to an executable, runs it, and then deletes the binary.
 
-```sh
-emcc src/main.c -o build/edi.js
-```
-
-To build an aggressively optimized version suitable for production, run
-
-```sh
-emcc -O3 src/main.c -o build/edi.js
-```
+## Using the Program
 
 To access functions declared in the project from JavaScript, you can use `Module._cFuncName` where `cFuncName` is the name of the global in the C code (note that the `_` prefix is added when accessing it). 
 

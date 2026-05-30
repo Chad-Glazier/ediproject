@@ -35,14 +35,13 @@ void benchmark_get_children() {
 
     const int sample = 100000;
     State board = initial_state();
+    State children[MAX_CHILDREN];
     
-    volatile double sink;
+    volatile uint16_t sink;
 
     Nanoseconds start = current_time();
     for (int i = 0; i < sample; i++) {
-        StateSlice* children = get_children(&board);
-        sink = children->len;
-        state_slice_destroy(children);
+        sink = get_children(children, &board);
     }
     Nanoseconds end = current_time();
 

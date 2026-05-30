@@ -1,15 +1,14 @@
 #include "state.h"
 #include <string.h>
 
-// Returns an unordered slice of all possible subsequent board states. When
-// modeling the game as a state tree, this function returns the children of a
-// given state.
-StateSlice* get_children(State* parent) {
+// Defines the maximum number of children that a parent state can have.
+const uint16_t MAX_CHILDREN = 3000;
 
-    // TODO: This implementation could be simplified by using pointers to the
-    // active queens/players instead of the giant if-else block.
+// Computes all possible child states for a given parent, writing them into the
+// specified array. The number of computed children is returned.
+uint16_t get_children(State child_array[MAX_CHILDREN], State* parent) {
 
-	StateSlice* children = state_slice_create(200);
+	uint16_t i = 0;
 
 	if (parent->player == WHITE) {
 
@@ -42,27 +41,18 @@ StateSlice* get_children(State* parent) {
 					flag(&parent->occ, arrow);
 
                     // We now have all the stuff we need for the child state.
-					State child = {
-					    .occ = parent->occ,
-					    .player = BLACK,
-					    .move =
-					        {
-					            .from = from,
-					            .to = to,
-					            .arrow = arrow,
-					        },
+					child_array[i].occ = parent->occ;
+					child_array[i].player = BLACK;
+					child_array[i].move = (Move){
+						.from = from,
+						.to = to,
+						.arrow = arrow,
 					};
-                    memcpy(
-                        &child.white, 
-                        parent->white, 
-                        sizeof(parent->white[0]) * 4
-                    );
-                    memcpy(
-                        &child.black, 
-                        parent->black, 
-                        sizeof(parent->black[0]) * 4
-                    );
-					state_slice_append(children, child);
+                    for (int j = 0; j < 4; j++) {
+						child_array[i].white[j] = parent->white[j];
+						child_array[i].black[j] = parent->black[j];
+					}
+					i++;
 
                     // Undo the arrow on the parent.
 					unflag(&parent->occ, arrow);
@@ -93,30 +83,25 @@ StateSlice* get_children(State* parent) {
 				for (Position arrow = next(&targets); arrow != NULL_POS;
 				     arrow = next(&targets)) {
 
+                    // Add the arrow to the board (again, in-place on the
+                    // parent board).
 					flag(&parent->occ, arrow);
 
-					State child = {
-					    .occ = parent->occ,
-					    .player = WHITE,
-					    .move =
-					        {
-					            .from = from,
-					            .to = to,
-					            .arrow = arrow,
-					        },
+                    // We now have all the stuff we need for the child state.
+					child_array[i].occ = parent->occ;
+					child_array[i].player = WHITE;
+					child_array[i].move = (Move){
+						.from = from,
+						.to = to,
+						.arrow = arrow,
 					};
-                    memcpy(
-                        &child.white, 
-                        parent->white, 
-                        sizeof(parent->white[0]) * 4
-                    );
-                    memcpy(
-                        &child.black, 
-                        parent->black, 
-                        sizeof(parent->black[0]) * 4
-                    );
-					state_slice_append(children, child);
+                    for (int j = 0; j < 4; j++) {
+						child_array[i].white[j] = parent->white[j];
+						child_array[i].black[j] = parent->black[j];
+					}
+					i++;
 
+                    // Undo the arrow on the parent.
 					unflag(&parent->occ, arrow);
 				}
 
@@ -127,5 +112,5 @@ StateSlice* get_children(State* parent) {
 		}
 	}
 
-    return children;
+    return i;
 }
