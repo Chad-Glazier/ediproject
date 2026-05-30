@@ -9,5 +9,5 @@ emcc `
     -sSAFE_HEAP=1 `
     -sSTACK_OVERFLOW_CHECK=2 `
     -sSTACK_SIZE=4194304 `
-    .\src\main.c `
-    -o build/edi.js
+    .\src\cmd\test.c `
+    -o .\build\edi.js

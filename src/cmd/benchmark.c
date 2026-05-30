@@ -1,5 +1,6 @@
-#include "eval/eval.h"
-#include "util/util.h"
+#include "../edi.h"
+#include <stdint.h>
+#include <stdio.h>
 
 //
 // This file implements some very basic benchmarks to check the performance of
@@ -43,4 +44,18 @@ void benchmark_get_children()
     double interval = (double)(end - start) / (double)sample;
 
     printf("get_children: %.2fns/op (%d iterations)\n", interval, sample);
+}
+
+//
+// Entrypoint.
+//
+
+int main()
+{
+    edi_init();
+
+    benchmark_kmindist();
+    benchmark_get_children();
+
+    return 0;
 }

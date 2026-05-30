@@ -8,11 +8,12 @@ We use [Emscripten](https://emscripten.org) to compile this program into WebAsse
 
 There are a few commands already set up for building the project from PowerShell. However, since they are basically just calls to `emcc`, they should be trivial to translate to other shells.
 - [build.ps1](./build.ps1) produces the optimized WebAssembly build and outputs it in [`build/`](./build/).
-- [debug.ps1](./debug.ps1) compiles the program in a similar way but with a bunch of debugging flags set. This version is an order of magnitude slower and it should only be used for debugging.
-- [run.ps1](./run.ps1) uses GCC to compile the project to an executable, runs it, and then deletes the binary.
+- [debug.ps1](./debug.ps1) compiles the program's tests to Wasm with a bunch of debugging flags set.
+- [run.ps1](./run.ps1) uses GCC to compile the project's main program to an executable, runs it, and then deletes the binary.
+- [test.ps1](./test.ps1) uses GCC to compile the project's tests and then runs them.
+- [benchmark.ps1](./benchmark.ps1) uses GCC to compile the project's benchmarks and then runs them.
 
 Apart from building the project, there are also the following scripts:
-- [lint.ps1](./lint.ps1) lints the source code with `clang-tidy`.
 - [format.ps1](./format.ps1) formats the source code with `clang-format`.
 
 ## Using the Program
@@ -29,3 +30,7 @@ void some_c_func() {
 	// ...
 }
 ```
+
+The core library can be imported with the [`edi.h`](./src/edi.h) file, and you must always run `edi_init()` once before using it. 
+
+`.c` files in the [cmd](./src/cmd/) directory are meant to be built as executables.

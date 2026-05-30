@@ -11,5 +11,5 @@ emcc `
     -std=c23 `
     -O3 `
     -sSTACK_SIZE=4194304 `
-    .\src\main.c `
-    -o build/edi.js
+    .\src\cmd\main.c `
+    -o .\build\edi.js
