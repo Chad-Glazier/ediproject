@@ -3,7 +3,7 @@ import "./App.css"
 function App() {
     return (
         <>
-            helo
+            Under construction innit
         </>
     )
 }
