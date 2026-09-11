@@ -46,6 +46,13 @@ void benchmark_get_children()
     printf("get_children: %.2fns/op (%d iterations)\n", interval, sample);
 }
 
+void benchmark_alpha_beta()
+{
+    State board = initial_state();
+
+    alpha_beta(&board, kmindist, (Nanoseconds) 30000000000ULL);
+}
+
 //
 // Entrypoint.
 //
@@ -56,6 +63,7 @@ int main()
 
     benchmark_kmindist();
     benchmark_get_children();
+    benchmark_alpha_beta();
 
     return 0;
 }

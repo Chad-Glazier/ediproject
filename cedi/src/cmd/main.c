@@ -1,5 +1,7 @@
 #include "../edi.h"
 #include <stdio.h>
+#include <emscripten.h>
+#include <stdint.h>
 
 int main()
 {
