@@ -36,6 +36,8 @@
     justify-content: center;
 
     max-width: 80ch;
+    line-height: 1.5em;
+    font-weight: 300;
 }
 
 .article img {

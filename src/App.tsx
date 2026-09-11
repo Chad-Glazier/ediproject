@@ -18,7 +18,7 @@ function App() {
                     alt=""
                 />
                 <p>
-                    This website is currently incomplete. In the interim, you should refer to the actively maintained <Link href="https://github.com/Chad-Glazier/edi" text="GitHub Repository" /> for details about the core EDI library and command-line tool.                     
+                    This website is currently incomplete. In the interim, you should refer to the actively maintained <Link href="https://github.com/Chad-Glazier/edi" text="GitHub Repository" /> for details about the core EDI library and command-line tool. You can also read a written report about the first version of the EDI program <Link text="here" href="https://raw.githubusercontent.com/Chad-Glazier/edi/main/docs/EDI_Report.pdf" />.             
                 </p>
             </article>
         </main>
